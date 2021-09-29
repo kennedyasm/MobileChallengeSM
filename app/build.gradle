@@ -40,6 +40,10 @@ android {
     viewBinding {
         enabled = true
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -80,6 +84,9 @@ dependencies {
 
     //Activity Ktx
     implementation "androidx.activity:activity-ktx:$activity_version"
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
 
 
 }

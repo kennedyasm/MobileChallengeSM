@@ -1,5 +1,6 @@
 package com.challenges.mobilechallengesm.data.remote.model
 
+import com.challenges.mobilechallengesm.dto.BeerDto
 import com.google.gson.annotations.SerializedName
 
 
@@ -26,4 +27,6 @@ data class BeerItem(
     @SerializedName("food_pairing") val food_pairing: List<String>,
     @SerializedName("brewers_tips") val brewers_tips: String,
     @SerializedName("contributed_by") val contributed_by: String
-)
+) {
+    internal fun toBeerDto(): BeerDto = BeerDto(id,name, image_url, description)
+}

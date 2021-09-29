@@ -1,9 +1,8 @@
 package com.challenges.mobilechallengesm.data.repository
 
-import com.challenges.mobilechallengesm.data.remote.model.BeerItem
-import com.challenges.mobilechallengesm.data.remote.model.BeersResponse
+import com.challenges.mobilechallengesm.dto.BeerDto
 import kotlinx.coroutines.flow.Flow
 
 interface BeersRepository {
-    suspend fun getBeers(): Flow<List<BeerItem>>
+    suspend fun getBeers(): Flow<List<BeerDto>>
 }
