@@ -1,6 +1,6 @@
 package com.challenges.mobilechallengesm.data.remote.model
 
-import com.challenges.mobilechallengesm.dto.BeerDto
+import com.challenges.mobilechallengesm.data.local.entities.BeerEntity
 import com.google.gson.annotations.SerializedName
 
 
@@ -13,10 +13,10 @@ data class BeerItem(
     @SerializedName("description") val description: String,
     @SerializedName("image_url") val image_url: String,
     @SerializedName("abv") val abv: Double,
-    @SerializedName("ibu") val ibu: Int,
+    @SerializedName("ibu") val ibu: Double,
     @SerializedName("target_fg") val target_fg: Int,
-    @SerializedName("target_og") val target_og: Int,
-    @SerializedName("ebc") val ebc: Int,
+    @SerializedName("target_og") val target_og: Double,
+    @SerializedName("ebc") val ebc: Double,
     @SerializedName("srm") val srm: Double,
     @SerializedName("ph") val ph: Double,
     @SerializedName("attenuation_level") val attenuation_level: Double,
@@ -28,5 +28,5 @@ data class BeerItem(
     @SerializedName("brewers_tips") val brewers_tips: String,
     @SerializedName("contributed_by") val contributed_by: String
 ) {
-    internal fun toBeerDto(): BeerDto = BeerDto(id,name, image_url, description)
+    internal fun toBeerEntity(): BeerEntity = BeerEntity(id, name, image_url, description)
 }
