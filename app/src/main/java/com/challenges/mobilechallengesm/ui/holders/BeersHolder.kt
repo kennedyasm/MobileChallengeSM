@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.challenges.mobilechallengesm.databinding.BeerItemBinding
 import com.challenges.mobilechallengesm.dto.BeerDto
-import com.challenges.mobilechallengesm.utils.loadImage
 
 class BeersHolder(private val binding: BeerItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(mItem: BeerDto) = with(binding) {
+    fun bind(mItem: BeerDto?) = with(binding) {
         item = mItem
         executePendingBindings()
     }
