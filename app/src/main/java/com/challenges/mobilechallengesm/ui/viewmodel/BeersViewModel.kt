@@ -1,42 +1,28 @@
 package com.challenges.mobilechallengesm.ui.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
 import com.challenges.mobilechallengesm.data.repository.BeersRepository
-import com.challenges.mobilechallengesm.dto.BeerDto
+import com.challenges.mobilechallengesm.dto.toBeerDto
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
 @HiltViewModel
 class BeersViewModel @Inject constructor(
-    private val beersRepository: BeersRepository
+    beersRepository: BeersRepository
 ) : ViewModel() {
 
-    private val _beersItems: MutableLiveData<List<BeerDto>> = MutableLiveData()
-    val beersItems: LiveData<List<BeerDto>>
-        get() = _beersItems
+    val beersPaging = beersRepository.getBeers().map { paging ->
+        paging.map { it.toBeerDto() }
+    }.cachedIn(viewModelScope)
 
-    init {
-        getBeers()
-    }
-
-    fun getBeers() {
-
-        viewModelScope.launch {
-            beersRepository.getBeers().catch { exception ->
-                Log.d("kTest -> ", " CATCH::ERROR - ${exception.message}")
-            }.collect {
-                _beersItems.postValue(it)
-            }
-        }
+    fun searchByQuery(query: String) {
 
     }
+
 
 }
