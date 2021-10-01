@@ -11,7 +11,7 @@ data class BeerItem(
     @SerializedName("tagline") val tagline: String,
     @SerializedName("first_brewed") val first_brewed: String,
     @SerializedName("description") val description: String,
-    @SerializedName("image_url") val image_url: String,
+    @SerializedName("image_url") val image_url: String?,
     @SerializedName("abv") val abv: Double,
     @SerializedName("ibu") val ibu: Double,
     @SerializedName("target_fg") val target_fg: Int,
@@ -28,5 +28,5 @@ data class BeerItem(
     @SerializedName("brewers_tips") val brewers_tips: String,
     @SerializedName("contributed_by") val contributed_by: String
 ) {
-    internal fun toBeerEntity(): BeerEntity = BeerEntity(id, name, image_url, description)
+    internal fun toBeerEntity(): BeerEntity = BeerEntity(id, name, image_url ?: "", description)
 }

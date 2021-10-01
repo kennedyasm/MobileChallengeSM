@@ -17,7 +17,7 @@ class BeersAdapter : PagingDataAdapter<BeerDto, BeersHolder>(CALLBACK) {
 
     companion object {
 
-        private val CALLBACK = object : DiffUtil.ItemCallback<BeerDto>() {
+        val CALLBACK = object : DiffUtil.ItemCallback<BeerDto>() {
             override fun areItemsTheSame(oldItem: BeerDto, newItem: BeerDto): Boolean =
                 oldItem.id == newItem.id
 

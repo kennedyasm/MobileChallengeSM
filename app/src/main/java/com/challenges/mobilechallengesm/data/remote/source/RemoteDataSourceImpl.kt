@@ -6,4 +6,6 @@ import javax.inject.Inject
 
 class RemoteDataSourceImpl @Inject constructor(private val api: BeersApi) : RemoteDataSource {
     override suspend fun getBeers(page: String): List<BeerItem> = api.getBeers(page)
+    override suspend fun getBeersByQuery(query: String): List<BeerItem> =
+        api.getBeersByQuery(query)
 }

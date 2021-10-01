@@ -1,4 +1,4 @@
-package com.challenges.mobilechallengesm.ui
+package com.challenges.mobilechallengesm.ui.activities
 
 import android.os.Bundle
 import android.view.Menu
@@ -9,6 +9,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import com.challenges.mobilechallengesm.R
 import com.challenges.mobilechallengesm.databinding.ActivityMainBinding
+import com.challenges.mobilechallengesm.ui.dialogs.SearchBeersDialogFragment
+import com.challenges.mobilechallengesm.ui.fragments.BeersMainFragment
 import com.challenges.mobilechallengesm.ui.viewmodel.BeersViewModel
 import com.challenges.mobilechallengesm.utils.queries
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         menuItem.setOnActionExpandListener(expandListener)?.also {
 
             (it.actionView as? SearchView)?.apply {
-                queries(lifecycle) { query -> query?.let { viewModel.searchByQuery(query) } }
+                queries(lifecycle) { query -> viewModel.searchBeersByQuery(query) }
             }
 
         }

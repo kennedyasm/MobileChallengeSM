@@ -9,7 +9,12 @@ import com.challenges.mobilechallengesm.data.local.dao.RemoteKeyDao
 import com.challenges.mobilechallengesm.data.local.entities.BeerEntity
 import com.challenges.mobilechallengesm.data.mediator.PageKeyRemoteMediator
 import com.challenges.mobilechallengesm.data.remote.source.RemoteDataSource
+import com.challenges.mobilechallengesm.dto.BeerDto
+import com.challenges.mobilechallengesm.dto.toBeerDto
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class BeersRepositoryImpl @Inject constructor(
@@ -28,6 +33,11 @@ class BeersRepositoryImpl @Inject constructor(
             remoteKeyDao
         )
     ) { beersDao.pagingSource() }.flow
+
+    override fun getBeersByQuery(query: String): Flow<List<BeerDto>> = flow {
+        val list: List<BeerDto> = remoteDataSource.getBeersByQuery(query).map { it.toBeerDto() }
+        emit(list)
+    }.flowOn(Dispatchers.IO)
 
 
 }

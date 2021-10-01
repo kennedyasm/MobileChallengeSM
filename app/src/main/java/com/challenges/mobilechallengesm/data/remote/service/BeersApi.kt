@@ -16,4 +16,9 @@ interface BeersApi {
         @Query("per_page") per_page: String = BEERS_PER_PAGE
     ): List<BeerItem>
 
+    @GET("beers")
+    suspend fun getBeersByQuery(
+        @Query("beer_name") beer_name: String
+    ): List<BeerItem>
+
 }

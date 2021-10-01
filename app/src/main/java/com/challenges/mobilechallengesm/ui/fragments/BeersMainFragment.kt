@@ -1,4 +1,4 @@
-package com.challenges.mobilechallengesm.ui
+package com.challenges.mobilechallengesm.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +12,11 @@ import com.challenges.mobilechallengesm.databinding.FragmentBeersMainBinding
 import com.challenges.mobilechallengesm.ui.adapters.BeersAdapter
 import com.challenges.mobilechallengesm.ui.adapters.PostLoadStateAdapter
 import com.challenges.mobilechallengesm.ui.viewmodel.BeersViewModel
+import com.challenges.mobilechallengesm.utils.asMergedLoadStates
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 
 @AndroidEntryPoint
 class BeersMainFragment : Fragment() {
@@ -58,6 +61,16 @@ class BeersMainFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.beersPaging.collectLatest {
                 mAdapter.submitData(it)
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mAdapter.loadStateFlow.asMergedLoadStates().distinctUntilChangedBy {
+                it.refresh
+            }.filter {
+                it.refresh is LoadState.NotLoading
+            }.collectLatest {
+                binding.list.scrollToPosition(0)
             }
         }
 
