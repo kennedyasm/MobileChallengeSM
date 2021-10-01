@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/mainBeers">
+
+    <fragment
+        android:id="@+id/mainBeers"
+        android:name="com.challenges.mobilechallengesm.ui.fragments.BeersMainFragment"
+        tools:layout="@layout/fragment_beers_main" />
+
+    <fragment
+        android:id="@+id/searchBeers"
+        android:name="com.challenges.mobilechallengesm.ui.dialogs.SearchBeersDialogFragment"
+        tools:layout="@layout/fragment_search_beers_dialog" />
+
+    <action
+        android:id="@+id/toSearch"
+        app:destination="@id/searchBeers" />
+
+</navigation>

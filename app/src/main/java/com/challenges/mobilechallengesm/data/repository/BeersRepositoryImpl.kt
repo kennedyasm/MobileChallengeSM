@@ -4,9 +4,8 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.challenges.mobilechallengesm.data.local.dao.BeersDao
-import com.challenges.mobilechallengesm.data.local.dao.RemoteKeyDao
 import com.challenges.mobilechallengesm.data.local.entities.BeerEntity
+import com.challenges.mobilechallengesm.data.local.source.LocalDataSource
 import com.challenges.mobilechallengesm.data.mediator.PageKeyRemoteMediator
 import com.challenges.mobilechallengesm.data.remote.source.RemoteDataSource
 import com.challenges.mobilechallengesm.dto.BeerDto
@@ -19,8 +18,7 @@ import javax.inject.Inject
 
 class BeersRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val beersDao: BeersDao,
-    private val remoteKeyDao: RemoteKeyDao
+    private val localDataSource: LocalDataSource
 ) : BeersRepository {
 
 
@@ -29,10 +27,9 @@ class BeersRepositoryImpl @Inject constructor(
         config = PagingConfig(pageSize = 10),
         remoteMediator = PageKeyRemoteMediator(
             remoteDataSource,
-            beersDao,
-            remoteKeyDao
+            localDataSource
         )
-    ) { beersDao.pagingSource() }.flow
+    ) { localDataSource.pagingSource() }.flow
 
     override fun getBeersByQuery(query: String): Flow<List<BeerDto>> = flow {
         val list: List<BeerDto> = remoteDataSource.getBeersByQuery(query).map { it.toBeerDto() }

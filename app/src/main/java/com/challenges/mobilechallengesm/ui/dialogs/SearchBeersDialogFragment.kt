@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.challenges.mobilechallengesm.databinding.FragmentSearchBeersDialogBinding
 import com.challenges.mobilechallengesm.dto.BeerDto
@@ -14,15 +14,11 @@ import com.challenges.mobilechallengesm.utils.Output
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchBeersDialogFragment : DialogFragment() {
+class SearchBeersDialogFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBeersDialogBinding
 
     private lateinit var mAdapter: BeersSearchAdapter
-
-    companion object {
-        const val TAG = "SearchBeersDialogFragment"
-    }
 
     private val viewModel: BeersViewModel by activityViewModels()
 

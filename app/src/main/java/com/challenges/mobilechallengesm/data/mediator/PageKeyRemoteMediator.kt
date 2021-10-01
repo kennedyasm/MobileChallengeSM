@@ -4,10 +4,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.challenges.mobilechallengesm.data.local.dao.BeersDao
-import com.challenges.mobilechallengesm.data.local.dao.RemoteKeyDao
 import com.challenges.mobilechallengesm.data.local.entities.BeerEntity
 import com.challenges.mobilechallengesm.data.local.entities.RemoteKeyEntity
+import com.challenges.mobilechallengesm.data.local.source.LocalDataSource
 import com.challenges.mobilechallengesm.data.remote.source.RemoteDataSource
 import retrofit2.HttpException
 import java.io.IOException
@@ -16,8 +15,7 @@ import java.io.IOException
 @ExperimentalPagingApi
 class PageKeyRemoteMediator constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val beersDao: BeersDao,
-    private val remoteKeyDao: RemoteKeyDao
+    private val localDataSource: LocalDataSource
 ) : RemoteMediator<Int, BeerEntity>() {
 
     companion object {
@@ -34,7 +32,7 @@ class PageKeyRemoteMediator constructor(
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> null
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
-                LoadType.APPEND -> remoteKeyDao.getRemoteKey().firstOrNull()
+                LoadType.APPEND -> localDataSource.getRemoteKey().firstOrNull()
             }
 
             loadKey?.let {
@@ -49,11 +47,11 @@ class PageKeyRemoteMediator constructor(
             val nextKey = if (endOfPaginationReached) null else page + 1
 
             if (loadType == LoadType.REFRESH) {
-                beersDao.clearAll()
-                remoteKeyDao.clearAll()
+                localDataSource.clearAllBeers()
+                localDataSource.clearAllRemoteKeys()
             }
 
-            remoteKeyDao.insertOrReplace(
+            localDataSource.insertOrReplaceRemoteKey(
                 RemoteKeyEntity(
                     0,
                     prevKey = prevKey,
@@ -62,7 +60,7 @@ class PageKeyRemoteMediator constructor(
                 )
             )
 
-            beersDao.insertAll(response.map { it.toBeerEntity() })
+            localDataSource.insertAllBeers(response.map { it.toBeerEntity() })
 
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
 

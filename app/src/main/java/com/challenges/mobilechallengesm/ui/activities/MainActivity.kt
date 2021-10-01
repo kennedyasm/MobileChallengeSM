@@ -6,11 +6,12 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.DialogFragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.challenges.mobilechallengesm.R
 import com.challenges.mobilechallengesm.databinding.ActivityMainBinding
-import com.challenges.mobilechallengesm.ui.dialogs.SearchBeersDialogFragment
-import com.challenges.mobilechallengesm.ui.fragments.BeersMainFragment
 import com.challenges.mobilechallengesm.ui.viewmodel.BeersViewModel
 import com.challenges.mobilechallengesm.utils.queries
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,20 +19,20 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
-        private set
+    private lateinit var binding: ActivityMainBinding
 
     private val viewModel: BeersViewModel by viewModels()
+    private lateinit var navController: NavController
 
     private val expandListener = object : MenuItem.OnActionExpandListener {
 
         override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-            showSearchBeersDialog()
+            navController.navigate(R.id.toSearch)
             return true
         }
 
         override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-            hideSearchBeersDialog()
+            navController.navigateUp()
             return true
         }
     }
@@ -40,26 +41,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loadMainFragment()
+        setupNavController()
+    }
 
+    private fun setupNavController() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContent) as NavHostFragment
+        navController = navHostFragment.findNavController()
+        setupActionBarWithNavController(navController)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
         return true
-    }
-
-    private fun loadMainFragment() = supportFragmentManager.beginTransaction()
-        .replace(binding.fragmentContent.id, BeersMainFragment())
-        .commit()
-
-    private fun showSearchBeersDialog() = with(supportFragmentManager.beginTransaction()) {
-        add(binding.fragmentContent.id, SearchBeersDialogFragment(), SearchBeersDialogFragment.TAG)
-        commit()
-    }
-
-    private fun hideSearchBeersDialog() = with(supportFragmentManager) {
-        (findFragmentByTag(SearchBeersDialogFragment.TAG) as? DialogFragment)?.dismiss()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
