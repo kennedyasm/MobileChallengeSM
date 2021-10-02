@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/searchBeers"
-        android:name="com.challenges.mobilechallengesm.ui.dialogs.SearchBeersFragment"
+        android:name="com.challenges.mobilechallengesm.ui.fragments.SearchBeersFragment"
         tools:layout="@layout/fragment_search_beers" />
 
     <action

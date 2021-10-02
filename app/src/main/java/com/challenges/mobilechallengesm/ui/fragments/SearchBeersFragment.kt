@@ -1,4 +1,4 @@
-package com.challenges.mobilechallengesm.ui.dialogs
+package com.challenges.mobilechallengesm.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.challenges.mobilechallengesm.databinding.FragmentSearchBeersBinding
 import com.challenges.mobilechallengesm.dto.BeerDto
 import com.challenges.mobilechallengesm.ui.adapters.BeersSearchAdapter
+import com.challenges.mobilechallengesm.ui.dialogs.DetailsBeerDialog
 import com.challenges.mobilechallengesm.ui.viewmodel.BeersViewModel
 import com.challenges.mobilechallengesm.utils.Output
 import dagger.hilt.android.AndroidEntryPoint
