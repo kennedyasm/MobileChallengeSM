@@ -6,19 +6,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.challenges.mobilechallengesm.databinding.BeerItemBinding
 import com.challenges.mobilechallengesm.dto.BeerDto
 
-class BeersHolder(private val binding: BeerItemBinding) : RecyclerView.ViewHolder(binding.root) {
+class BeersHolder(private val binding: BeerItemBinding, private val listener: (BeerDto) -> Unit) :
+    RecyclerView.ViewHolder(binding.root) {
 
     fun bind(mItem: BeerDto?) = with(binding) {
-        item = mItem
+        mItem?.let {
+            item = mItem
+            itemContainer.setOnClickListener { listener.invoke(mItem) }
+        }
         executePendingBindings()
     }
 
     companion object {
 
-        fun from(parent: ViewGroup): BeersHolder {
+        fun from(parent: ViewGroup, listener: (BeerDto) -> Unit): BeersHolder {
             val inflater = LayoutInflater.from(parent.context)
             val view = BeerItemBinding.inflate(inflater, parent, false)
-            return BeersHolder(view)
+            return BeersHolder(view, listener)
         }
 
     }

@@ -11,6 +11,7 @@ import androidx.paging.LoadState
 import com.challenges.mobilechallengesm.databinding.FragmentBeersMainBinding
 import com.challenges.mobilechallengesm.ui.adapters.BeersAdapter
 import com.challenges.mobilechallengesm.ui.adapters.PostLoadStateAdapter
+import com.challenges.mobilechallengesm.ui.dialogs.DetailsBeerDialog
 import com.challenges.mobilechallengesm.ui.viewmodel.BeersViewModel
 import com.challenges.mobilechallengesm.utils.asMergedLoadStates
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +23,6 @@ import kotlinx.coroutines.flow.filter
 class BeersMainFragment : Fragment() {
 
     private lateinit var binding: FragmentBeersMainBinding
-
     private lateinit var mAdapter: BeersAdapter
 
     private val viewModel: BeersViewModel by activityViewModels()
@@ -44,7 +44,9 @@ class BeersMainFragment : Fragment() {
 
     private fun initAdapter() {
 
-        mAdapter = BeersAdapter()
+        mAdapter = BeersAdapter {
+            DetailsBeerDialog(requireActivity()).show(it)
+        }
 
         binding.list.adapter = mAdapter.withLoadStateHeaderAndFooter(
             header = PostLoadStateAdapter(mAdapter),

@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import com.challenges.mobilechallengesm.dto.BeerDto
 import com.challenges.mobilechallengesm.ui.holders.BeersHolder
 
-class BeersAdapter : PagingDataAdapter<BeerDto, BeersHolder>(CALLBACK) {
+class BeersAdapter(private val listener: (BeerDto) -> Unit) :
+    PagingDataAdapter<BeerDto, BeersHolder>(CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeersHolder =
-        BeersHolder.from(parent)
+        BeersHolder.from(parent, listener)
 
     override fun onBindViewHolder(holder: BeersHolder, position: Int) =
         holder.bind(getItem(position))

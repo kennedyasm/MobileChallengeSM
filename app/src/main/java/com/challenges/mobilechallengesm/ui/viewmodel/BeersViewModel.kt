@@ -33,7 +33,7 @@ class BeersViewModel @Inject constructor(
         get() = mFilterBeers
 
     fun searchBeersByQuery(query: String?) {
-        mFilterBeers.value = Output.Loading()
+        mFilterBeers.value = Output.Loading
         if (query.isNullOrBlank()) {
             mFilterBeers.value = Output.Success(mutableListOf())
         } else {
